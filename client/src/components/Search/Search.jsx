@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {getCountriesSummary} from './../../redux/actions/index';
+import {fetchCountriesbyQuery,SetPaginadoGlobal} from "../../redux/indexSlice";
 import { useDispatch } from 'react-redux';
-import {SetPaginadoGlobal} from "../../redux/actions/index";
 import Style from './Search.module.css'
 
 export default function Search({paginadoActivated}) {
@@ -16,7 +15,7 @@ export default function Search({paginadoActivated}) {
 
     const clickHandler = (event) => {
         event.preventDefault();
-        dispatch(getCountriesSummary(input))
+        dispatch(fetchCountriesbyQuery(input))
         dispatch(SetPaginadoGlobal(1)) 
         paginadoActivated(); 
         setinput('');

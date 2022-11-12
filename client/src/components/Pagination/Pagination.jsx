@@ -1,6 +1,6 @@
 import React from "react";
 import Style from "./Pagination.module.css";
-import {SetPaginadoGlobal} from "../../redux/actions/index";
+import {SetPaginadoGlobal} from "../../redux/indexSlice";
 import { useDispatch } from "react-redux";
 
 const Pagination = ({ countriesPerPage, 

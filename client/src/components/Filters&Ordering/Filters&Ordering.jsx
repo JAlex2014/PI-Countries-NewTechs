@@ -5,12 +5,12 @@ import {useHistory} from 'react-router'
 
 //Importo mis funciones de mis actios que filtran y ordenan
 
-import {getAllActivities} from "../../redux/actions/index";
-import {filterCountriesByContinent} from "../../redux/actions/index";
-import {filterCountriesByActivities} from "../../redux/actions/index";
-import {OrderbyABCs} from "../../redux/actions/index"; 
-import {OrderbyPopulation} from "../../redux/actions/index";
-import {SetPaginadoGlobal} from "../../redux/actions/index";
+import {    fetchActivities,
+            filterCountriesByContinent,
+            filterCountriesByActivities,
+            OrderbyABCs,
+            OrderbyPopulation,
+            SetPaginadoGlobal} from "../../redux/indexSlice";
 
 import Style from "./Filtersordering.module.css";
 
@@ -18,7 +18,7 @@ const FiltersnOrdering = ({setOrden, paginadoActivated}) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    const activities = useSelector(state => state.activities);
+    const {activities} = useSelector(state => state.countries);
 
     const handlerOrdering = (event) => {
         switch(event.target.value){
@@ -73,7 +73,7 @@ const FiltersnOrdering = ({setOrden, paginadoActivated}) => {
         paginadoActivated();
     };
 
-    React.useEffect(() => {dispatch(getAllActivities())},
+    React.useEffect(() => {dispatch(fetchActivities())},
     [dispatch]);
 
     return(

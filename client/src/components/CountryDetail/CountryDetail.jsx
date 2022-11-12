@@ -1,5 +1,6 @@
 import React from "react";
-import * as actions from "./../../redux/actions/index";
+//import * as actions from "./../../redux/actions/index";
+import {fetchCountryDetail} from "../../redux/indexSlice";
 import { useSelector } from "react-redux"; // ≈ a mapStatetoProps
 import { useDispatch } from "react-redux"; // ≈ a mapDispatchtoProps
 import { useHistory } from "react-router-dom";
@@ -14,15 +15,15 @@ const CountryDetail = (props) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const loading = useSelector(state => state.loading);
+    const {loading} = useSelector(state => state.countries);
     const CountryId = props.match.params.id;
 
     React.useEffect(() => 
-        {dispatch(actions.getCountryDetail(CountryId))},
+        {dispatch(fetchCountryDetail(CountryId))},
         [dispatch,CountryId]
     );
 
-    const countryDetail = useSelector(state => state.countryDetail);
+    const {countryDetail} = useSelector(state => state.countries);
 
     return(
         <div className={Style.main}>

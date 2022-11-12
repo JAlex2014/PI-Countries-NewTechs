@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../redux/actions/index";
+//import * as actions from "../../redux/actions/index";
+import {fetchCountries,fetchActivities,postActivity} from "../../redux/indexSlice";
 import { difficulties, seasons, duration, reg_ex} from "../ConstsandHelpers";
 import Style from "./CreateTour.module.css";
 
@@ -8,16 +9,16 @@ import Style from "./CreateTour.module.css";
 const CreateTour = () => {
 
     const dispatch = useDispatch();
-    const allcountries = useSelector(state => state.allcountries);
+    const {allcountries} = useSelector(state => state.countries);
 
     /*TRAIGO UN ESTADO LOCAL DE MIS ACTIVITIES PARA PODER MAPEAR**********************/
     /*SUS NOMBRES Y PODER USARLOS PARA LA VALIDACION DE NOMBRES REPETIDOS*************/
-    const activities = useSelector(state => state.activities);
+    const {activities} = useSelector(state => state.countries);
     const tours_names = activities.map(activitie => activitie.name);
     /*********************************************************************************/
 
-    React.useEffect(() => {dispatch(actions.getAllCountries())},[dispatch]);
-    React.useEffect(() => {dispatch(actions.getAllActivities())},[dispatch]);
+    React.useEffect(() => {dispatch(fetchCountries())},[dispatch]);
+    React.useEffect(() => {dispatch(fetchActivities())},[dispatch]);
     
     const [state,setState] = React.useState({
         name: "",
@@ -68,7 +69,7 @@ const CreateTour = () => {
 
     const handlerSubmit = (event) => {
         event.preventDefault();
-        dispatch(actions.createActivity(state));
+        dispatch(postActivity(state));
         setState({
             name: "",
             difficulty: 0,

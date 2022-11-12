@@ -1,4 +1,5 @@
-import * as actions from  "./../../redux/actions/index";
+//import * as actions from  "./../../redux/actions/index";
+import {SetPaginadoGlobal,fetchCountries} from "../../redux/indexSlice.js";
 import React from "react";
 import {useState } from "react";
 import {useSelector, useDispatch } from "react-redux";
@@ -9,13 +10,12 @@ import NotFound from "../NotFound/NotFound.jsx";
 import Pagination from "../Pagination/Pagination";
 import Loading from "../Loading/Loading";
 import Style from "./Home.module.css"
-import {SetPaginadoGlobal} from "../../redux/actions/index";
 
 const Home = () => {
 
     const dispatch = useDispatch();
-    const countries = useSelector(state => state.countries);
-    const loading = useSelector(state => state.loading);
+    const {countries} = useSelector(state => state.countries);
+    const {loading} = useSelector(state => state.countries);
     
     /*DEFINO ESTADOS LOCALES NECESARIOS**************************************/
   
@@ -27,7 +27,7 @@ const Home = () => {
    
     //TRAIGO UN COPIA LOCAL DE MI ESTADO CURRENTPAGE, INICIALIZADO EN 1******/
     //EN MI ESTADO GLOBAL DEL REDUCER****************************************/
-    const currentPage = useSelector(state => state.actualPage);
+    const currentPage = useSelector(state => state.countries.actualPage);
 
     //ESTE ESTADO ME SIRVE PARA PODER DAR ESTILO TIPO HOVER AL***************/
     //BOTÓN DEL PAGINADO DE LA PÁGINA EN LA QUE SE ENCUENTRE*****************/
@@ -66,25 +66,27 @@ const Home = () => {
     /*CON ELEMENTOS, NO NECESITO RE-RENDERIZARLO, ESTO ES UTIL PARA MANTENER**/
     /*LOS FILTROS*************************************************************/
     React.useEffect(() => {if(countries.length===0){
-            dispatch(actions.getAllCountries())
+            dispatch(fetchCountries())
         }
     },[dispatch,countries.length]);
     /*************************************************************************/
     
     return(
+        
         <div className={Style.home}>
             <div className={Style.filtersandpag}>
                 <Search             paginadoActivated={paginadoActivated}/>
-
                 <FiltersnOrdering   setOrden={setOrden}
-                                    paginadoActivated={paginadoActivated}/>
-
+                                    paginadoActivated={paginadoActivated}/>                                  
+                {console.log(currentCountries)}
+                {console.log(currentPage)}
                 {(typeof countries !== "string") && <Pagination countriesPerPage={countriesPerPage}
                                     countries={countries.length}
                                     paginadoHandler={paginadoHandler} 
                                     currentPage={currentPage}
                                     paginadoActivated={paginadoActivated}   
-                                    activated={activated}/>   }
+                                    activated={activated}/>  
+                                     }
             </div>     
             <div className={currentCountries.length && Style.allCards}> 
                 {loading?(<Loading/>):((typeof countries !== "string"))?/* currentCountries.length?  */
